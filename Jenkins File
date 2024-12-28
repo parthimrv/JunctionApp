@@ -1,0 +1,46 @@
+
+pipeline {
+    agent any
+
+    environment {
+        GIT_REPO = 'https://github.com/parthimrv/JunctionApp.git'
+        DEPLOY_PATH = '/var/www/Junction-app' // Change this to your deployment directory
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                echo 'Cloning repository...'
+                git branch: 'main', url: "${env.GIT_REPO}"
+            }
+        }
+
+        stage('Build Application') {
+            steps {
+                echo 'Building application...'
+                // Add your build commands here
+                // For example, for a Node.js app: sh 'npm install && npm run build'
+                sh 'echo "Build step executed!"'
+            }
+        }
+
+        stage('Deploy Application') {
+            steps {
+                echo 'Deploying application...'
+                // Ensure the deployment directory exists
+                sh 'mkdir -p ${DEPLOY_PATH}'
+                // Copy files to the deployment directory
+                sh 'cp -R * ${DEPLOY_PATH}'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Deployment completed successfully!'
+        }
+        failure {
+            echo 'Deployment failed. Check the logs for details.'
+        }
+    }
+}
