@@ -19,7 +19,7 @@ pipeline {
             steps {
                 echo 'Building application...'
                 // Add your build commands here
-                // For example, for a Node.js app: sh 'npm install && npm run build'
+                sh 'npm install && npm run build'
                 sh 'echo "Build step executed!"'
             }
         }
